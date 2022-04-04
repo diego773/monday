@@ -1,0 +1,22 @@
+{
+  "name": "monday",
+  "version": "1.0.0",
+  "description": "rewards",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diego773/monday.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diego773/monday/issues"
+  },
+  "homepage": "https://github.com/diego773/monday#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
