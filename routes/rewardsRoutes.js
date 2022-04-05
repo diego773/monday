@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getTransactions,
-  postTransaction,
+  newTransaction,
   getSpendPoints,
   updateTransactions,
   deleteTransactions,
@@ -10,19 +10,19 @@ const {
 } = require("../controllers/transactionController");
 
 //Gets transactions from the database
+router.get("/", getTransactions);
+
 // POST route for saving a new transaction
+router.post("/newtransaction", newTransaction);
+
 // GET route for retrieving a spend points
-router
-  .route("/")
-  .get(getTransactions)
-  .post(postTransaction)
-  .get(getSpendPoints);
+router.get("/points", getSpendPoints);
 
 // PUT route for updating a transaction
 // DELETE route for deleting a transaction
 // Return all of the payer points balance for a given user id
 router
-  .route("/:id")
+  .route("/:payer")
   .put(updateTransactions)
   .delete(deleteTransactions)
   .get(getPayerPointBalances);
