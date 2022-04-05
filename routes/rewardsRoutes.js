@@ -16,7 +16,7 @@ router.get("/", getTransactions);
 router.post("/newtransaction", newTransaction);
 
 // GET route for retrieving a spend points
-router.get("/points", getSpendPoints);
+router.post("/points", getSpendPoints);
 
 // PUT route for updating a transaction
 // DELETE route for deleting a transaction

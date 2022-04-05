@@ -40,24 +40,20 @@ const newTransaction = async (req, res) => {
 // Private route
 const getSpendPoints = async (req, res) => {
   try {
-    const { payer, points } = req.body;
+    const { payer } = req.body;
 
     // Match the payer and retrive points
-    const payerPoints = await Rewards.find({ payer });
-    // const pointsBalance = await Rewards.compare(payer, payerPoints.points);
+    const payerPoints = await Rewards.findOne({ payer });
+    if (!payerPoints)
+      return res.status(400).json({ message: "Payer not found" });
 
-    // If the payer does not exist, return an error
-    if (!payerPoints) {
-      return res.status(400).json({ message: "Payer does not exist" });
-    }
-
-    // If the payer exists, return the payer's points
     return res.status(200).json({
       payer: payerPoints.payer,
       points: payerPoints.points,
+      timestamps: payerPoints.timestamps,
     });
 
-    // res.status(200).json({ message: "get spend points" });
+    // Check if the points are greater than the payer's points
   } catch (error) {
     console.error(error);
   }
