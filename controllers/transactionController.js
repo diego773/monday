@@ -1,16 +1,25 @@
-const Rewards = require("../models/rewardsModel");
+const db = require("../models/rewardsModel");
 
-// Get transactions
+// Get transactions Return all payer point balances.
 // Route GET /api/rewards
 // Private route
-const getTransactions = (req, res) => {
-  res.status(200).json({ message: "get transactions" });
+const getTransactions = async (req, res) => {
+  try {
+    const transactions = await db.find();
+    if (transactions) {
+      return res.status(200).json(transactions);
+    }
+
+    return res.status(404).json({ message: "No transactions found" });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // POST transactions
 // Route POST /api/rewards/newtransaction
 // Private route
-const newTransaction = async (req, res) => {
+const addTransaction = async (req, res) => {
   try {
     const { payer, points } = req.body;
     if (!payer || !points) {
@@ -19,15 +28,17 @@ const newTransaction = async (req, res) => {
         .json({ message: "Please provide payer and points" });
     }
 
-    const newTransaction = await Rewards.create({
+    const newTransaction = await db.create({
       payer,
       points,
     });
 
     if (newTransaction) {
       return res.status(200).json({
+        _id: newTransaction._id,
         payer: newTransaction.payer,
         points: newTransaction.points,
+        timestamps: newTransaction.timestamps,
       });
     }
   } catch (error) {
@@ -35,56 +46,57 @@ const newTransaction = async (req, res) => {
   }
 };
 
-// Get Points
-// Route GET /api/rewards/points
+// Get Points Spend points using the rules above and return a list of
+// Route POST /api/rewards/addpoints
 // Private route
-const getSpendPoints = async (req, res) => {
+const addPoints = async (req, res) => {
   try {
-    const { payer } = req.body;
+    const { payer, points } = req.body;
+    // Check if the points are less than 0, if they are subtract from the matching payer
 
-    // Match the payer and retrive points
-    const payerPoints = await Rewards.findOne({ payer });
-    if (!payerPoints)
-      return res.status(400).json({ message: "Payer not found" });
+    if (points < 0) {
+      // Match the payer and the points
+      // const payerPointBalance = await db.findOne({ payer });
 
-    return res.status(200).json({
-      payer: payerPoints.payer,
-      points: payerPoints.points,
-      timestamps: payerPoints.timestamps,
+      // Subtract the points from the payer
+      const newPayerPointBalance = await db.findOneAndUpdate(
+        { payer },
+        { $inc: { points: +points } },
+        { new: true }
+      );
+
+      // Return the new payer point balance
+      return res.status(200).json(newPayerPointBalance);
+    }
+
+    const newTransaction = await db.create({
+      payer,
+      points,
     });
 
-    // Check if the points are greater than the payer's points
+    if (newTransaction) {
+      return res.status(200).json({
+        _id: newTransaction._id,
+        payer: newTransaction.payer,
+        points: newTransaction.points,
+        timestamps: newTransaction.timestamps,
+      });
+    }
   } catch (error) {
     console.error(error);
   }
 };
 
-// PUT transactions
-// Route PUT /api/transaction/:id
-// Private route
-const updateTransactions = (req, res) => {
-  res.status(200).json({ message: `Update transaction ${req.params.id}` });
-};
-
-// DELETE transactions
-// Route DELETE /api/transaction/:id
-// Private route
-const deleteTransactions = (req, res) => {
-  res.status(200).json({ message: `Delete transaction ${req.params.id}` });
-};
-
 // GET points
 // Route GET /api/point/:id
 // Private route
-const getPayerPointBalances = (req, res) => {
+const getPayerPointBalance = (req, res) => {
   res.status(200).json({ message: `Return all payer points ${req.params.id}` });
 };
 
 module.exports = {
   getTransactions,
-  newTransaction,
-  getSpendPoints,
-  updateTransactions,
-  deleteTransactions,
-  getPayerPointBalances,
+  addTransaction,
+  addPoints,
+  getPayerPointBalance,
 };

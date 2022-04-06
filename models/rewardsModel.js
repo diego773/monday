@@ -10,6 +10,7 @@ const rewardsSchema = new Schema(
     },
     points: {
       type: Number,
+      trim: true,
       require: true,
     },
   },

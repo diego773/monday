@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 
 // For parsing form data
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/rewards", require("./routes/rewardsRoutes"));
 
