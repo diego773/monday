@@ -55,19 +55,19 @@ For each call, the body should contain the following:
 
   - Under the URL bar, select Body, check x-www-form-urlencoded, and enter the following:
 
-  -under Key - write payer
+  -under Key write payer
 
-  -under Value - enter payer name
+  -under Value enter payer name
 
-  -under Key - write points
+  -under Key write points
 
-  -under Value - enter points
+  -under Value enter points
 
-  -under Key - write timestamps
+  -under Key write timestamps
 
-  -under Value - enter timestamp in ISO8601 format
+  -under Value enter timestamp in ISO8601 format
 
-Click -send- and you should see a -Status:201 Created- response.
+Click -send and you should see a -Status:201 Created response.
 
 ![transaction](./images/add-transaction.gif)
 
@@ -89,9 +89,9 @@ Accepts a body format
 
 -under Value - enter points
 
-Click -send- and you should see a -Status:200 OK- response.
+Click -send- and you should see a -Status:200 OK response.
 
-![spendpoints](./images/spend-points.gif)
+![spendpoints](./images/spendpoints.gif)
 
 ## GET route api/rewards/pointsbalance
 
@@ -103,9 +103,9 @@ The body should be empty.
 
 * check x-www-form-urlencoded,
 
-Click -send- and you should see a -Status:200 OK- response.
+Click -send and you should see a -Status:200 OK response.
 
-(./images/getbalance.gif)
+![get balance](./images/getbalance.gif)
 
 ## Running Test
 
@@ -114,6 +114,6 @@ Click -send- and you should see a -Status:200 OK- response.
 
 The test file will run the following tests:
 
-- -POST- a new transaction
-- -POST- spend points
-- -GET- points balance
+- -POST a new transaction
+- -POST spend points
+- -GET points balance
