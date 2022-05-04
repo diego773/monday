@@ -67,7 +67,7 @@ For each call, the body should contain the following:
 
   -under Value enter timestamp in ISO8601 format
 
-Click -send and you should see a -Status:201 Created response.
+Click send and you should see a Status:201 Created response.
 
 ![transaction](./images/add-transaction.gif)
 
@@ -89,7 +89,7 @@ Accepts a body format
 
 -under Value - enter points
 
-Click -send- and you should see a -Status:200 OK response.
+Click send and you should see a Status:200 OK response.
 
 ![spendpoints](./images/spendpoints.gif)
 
@@ -103,17 +103,17 @@ The body should be empty.
 
 * check x-www-form-urlencoded,
 
-Click -send and you should see a -Status:200 OK response.
+Click send and you should see a Status:200 OK response.
 
 ![get balance](./images/getbalance.gif)
 
 ## Running Test
 
     1. Run the test file with the following command:
-    2. npm run test
+      2. npm run test
 
 The test file will run the following tests:
 
-- -POST a new transaction
-- -POST spend points
-- -GET points balance
+- POST a new transaction
+- POST spend points
+- GET points balance
