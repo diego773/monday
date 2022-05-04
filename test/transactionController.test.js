@@ -9,6 +9,7 @@ describe("Route POST /api/rewards/addtransactions", () => {
       points: 1000,
       timestamps: "2020-11-02T14:00:00Z",
     });
+
     expect(res.status).toBe(200);
   });
   it("should return a status of 200", async () => {
