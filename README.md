@@ -69,7 +69,7 @@ For each call, the body should contain the following:
 
 Click -send- and you should see a -Status:201 Created- response.
 
-(./images/add-transaction.gif)
+![transaction](./images/add-transaction.gif)
 
 ## POST route api/rewards/spendpoints
 
@@ -91,7 +91,7 @@ Accepts a body format
 
 Click -send- and you should see a -Status:200 OK- response.
 
-(./images/spend-points.gif)
+![spendpoints](./images/spend-points.gif)
 
 ## GET route api/rewards/pointsbalance
 
