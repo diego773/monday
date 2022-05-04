@@ -3,8 +3,7 @@ const router = express.Router();
 const {
   addTransactions,
   spendPoints,
-  fiveThousand,
-  getPayerPointBalance,
+  pointsBalance,
 } = require("../controllers/transactionController");
 
 //Gets transactions from the database
@@ -13,8 +12,7 @@ router.post("/addtransactions", addTransactions);
 // POST route for adding spend points
 router.post("/spendpoints", spendPoints);
 
-// POST route for adding 5000 points
-router.post("/5000", fiveThousand);
+router.get("/pointsbalance", pointsBalance);
 
 // PUT route for updating a transaction
 // DELETE route for deleting a transaction
@@ -30,6 +28,5 @@ router.post("/5000", fiveThousand);
 // router.delete("/:id", deleteTransactions);
 
 // router.get("/:id", getPayerPointBalances);
-router.post("/balance", getPayerPointBalance);
 
 module.exports = router;
