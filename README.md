@@ -4,6 +4,10 @@
 
 A backend restful API web service that accepts HTTP requests and returns responses based on the conditions outlined in the next section.
 
+## Demo
+
+![Demo](./video-demo/site-demo.gif)
+
 ## Technologies:
 
 - Node.js - cross-platform JavaScript runtime environment
@@ -11,6 +15,7 @@ A backend restful API web service that accepts HTTP requests and returns respons
 - Mongoose - MongoDB ORM
 - MongoDB - MongoDB database
 - Jest for testing and coverage
+- Supertest for testing and coverage
 - Postman (for testing) and RESTful API testing tools
 
 ## Table of Contents
@@ -19,8 +24,8 @@ A backend restful API web service that accepts HTTP requests and returns respons
 - [Technologies](#topics)
 - [Installation](#installation)
 - [Making API calls](#making-api-calls)
-- [License](#license)
-- [Badges](#badges)
+- [Demo](#demo)
+- [Running Test](#tests)
 
 ## Installation
 
@@ -36,8 +41,8 @@ Installation:
 
 To Start Server:
 
-    - npm run server
-    - Your server will be running on port 3001
+    1. npm run server
+    2. Your server will be running on port 3001
 
 ## Making API calls
 
@@ -55,17 +60,17 @@ For each call, the body should contain the following:
 
   - Under the URL bar, select Body, check x-www-form-urlencoded, and enter the following:
 
-  -under Key write payer
+  - under Key write payer
 
-  -under Value enter payer name
+  - under Value enter payer name
 
-  -under Key write points
+  - under Key write points
 
-  -under Value enter points
+  - under Value enter points
 
-  -under Key write timestamps
+  - under Key write timestamps
 
-  -under Value enter timestamp in ISO8601 format
+  - under Value enter timestamp in ISO8601 format
 
 Click send and you should see a Status:201 Created response.
 
@@ -85,9 +90,9 @@ Accepts a body format
 
 * check x-www-form-urlencoded, and enter the following:
 
--under Key - write points
+- under Key - write points
 
--under Value - enter points
+- under Value - enter points
 
 Click send and you should see a Status:200 OK response.
 
@@ -110,7 +115,7 @@ Click send and you should see a Status:200 OK response.
 ## Running Test
 
     1. Run the test file with the following command:
-    - npm run test
+    2. npm run test or npm test
 
 The test file will run the following tests:
 
