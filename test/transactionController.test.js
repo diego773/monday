@@ -1,104 +1,152 @@
-const transactionController = require("../controllers/transactionController");
+const request = require("supertest");
+const app = require("../server");
 
 // Route POST /api/rewards/addtransactions
-
-describe("Route POST /api/rewards/addtransactions", () => {
-  it("should return a status of 200", async () => {
-    const res = await request(app).post("/api/rewards/addtransactions").send({
-      payer: "DANNON",
-      points: 1000,
-      timestamps: "2020-11-02T14:00:00Z",
+// Private route
+describe("POST /addtransactions", () => {
+  describe("creates new transaction", () => {
+    it("creates payer, points, timestamps to the database", async () => {
+      try {
+        const response = await request(app).post("/addtransactions").send({
+          payer: "DANNON",
+          points: 1000,
+          timestamps: "2020-11-02T14:00:00Z",
+        });
+        expect(response.body.message)
+          .toBe(
+            "New Transaction added to the database. Please check the database for the new transaction"
+          )
+          .toEqual({
+            payer: "DANNON",
+            points: 1000,
+            timestamps: "2020-11-02T14:00:00Z",
+          });
+      } catch (error) {
+        error.message;
+      }
     });
-
-    expect(res.status).toBe(200);
-  });
-  it("should return a status of 200", async () => {
-    const res2 = await request(app).post("/api/rewards/addtransactions").send({
-      payer: "UNILEVER",
-      points: 200,
-      timestamps: "2020-10-31T11:00:00Z",
-    });
-    expect(res2.status).toBe(200);
-  });
-
-  it("should return a status of 422", async () => {
-    const res3 = await request(app).post("/api/rewards/addtransactions").send({
-      payer: "DANNON",
-      points: -200,
-      timestamps: "2020-10-31T15:00:00Z",
-    });
-    expect(res3.status).toBe(422);
   });
 
-  it("should return a status of 200", async () => {
-    const res4 = await request(app).post("/api/rewards/addtransactions").send({
-      payer: "MILLER COORS",
-      points: 10000,
-      timestamps: "2020-11-01T14:00:00Z",
+  describe("doesn't create new transaction", () => {
+    it("returns an error if no payer is provided", async () => {
+      try {
+        const response2 = await request(app).post("/addtransactions").send({
+          points: 1000,
+          timestamps: "2020-11-02T14:00:00Z",
+        });
+        expect(response2.body.message)
+          .toBe("Please add all required fields")
+          .toEqual({
+            error: "Payer is required",
+          });
+      } catch (error) {
+        error.message;
+      }
     });
-    expect(res4.status).toBe(200);
+    it("returns an error if no points are provided", async () => {
+      try {
+        const response3 = await request(app).post("/addtransactions").send({
+          payer: "DANNON",
+          timestamps: "2020-11-02T14:00:00Z",
+        });
+        expect(response3.body.message)
+          .toBe("Please add all required fields")
+          .toEqual({
+            error: "Points are required",
+          });
+      } catch (error) {
+        error.message;
+      }
+    });
+    it("returns an error if no timestamps are provided", async () => {
+      try {
+        const response4 = await request(app).post("/addtransactions").send({
+          payer: "DANNON",
+          points: 1000,
+        });
+        expect(response4.body.message)
+          .toBe("Please add all required fields")
+          .toEqual({
+            error: "Timestamps are required",
+          });
+      } catch (error) {
+        error.message;
+      }
+    });
   });
 
-  it("should return a status of 200", async () => {
-    const res5 = await request(app).post("/api/rewards/addtransactions").send({
-      payer: "DANNON",
-      points: 300,
-      timestamps: "2020-10-31T10:00:00Z",
+  describe("creates a negative transaction", () => {
+    it("returns an error if negative points are added", async () => {
+      try {
+        const negativeTransaction = await request(app)
+          .post("/addtransactions")
+          .send({
+            payer: "DANNON",
+            points: -200,
+            timestamps: "2020-10-31T15:00:00Z",
+          });
+        expect(negativeTransaction.body.message)
+          .toBe(
+            "Negative points are not allowed to be added to the database, and will be subtracted from the payer's current point balance."
+          )
+          .toEqual({
+            payer: "DANNON",
+            points: -200,
+            timestamps: "2020-10-31T15:00:00Z",
+          });
+      } catch (error) {
+        error.message;
+      }
     });
-    expect(res5.status).toBe(200);
   });
 });
 
 // Route POST /api/rewards/spendpoints
-describe("Route POST /api/rewards/spendpoints", () => {
-  it("should return a status of 200", async () => {
-    const res = await request(app).post("/api/rewards/spendpoints").send({
-      payer: "DANNON",
-      points: -100,
+// Private route
+describe("POST /spendpoints", () => {
+  describe("When points 5000 is called it subtracts points from the oldest transaction", () => {
+    it("returns the new point balance", async () => {
+      try {
+        const response = await request(app).post("/spendpoints").send({
+          points: 5000,
+        });
+        expect(response.body.message)
+          .toBe({
+            payer: "DANNON",
+            points: -100,
+          })
+          .toEqual({
+            payer: "DANNON",
+            points: -100,
+          });
+      } catch (error) {
+        error.message;
+      }
     });
-    expect(res.status).toBe(200);
-  });
-
-  it("should return a status of 200", async () => {
-    const res2 = await request(app).post("/api/rewards/spendpoints").send({
-      payer: "UNILEVER",
-      points: -200,
-    });
-    expect(res2.status).toBe(200);
-  });
-
-  it("should return a status of 200", async () => {
-    const res3 = await request(app).post("/api/rewards/spendpoints").send({
-      payer: "MILLER COORS",
-      points: -4700,
-    });
-    expect(res3.status).toBe(200);
   });
 });
 
 // Route GET /api/rewards/pointsbalance
-describe("Route GET /api/rewards/pointsbalance", () => {
-  it("should return a status of 200", async () => {
-    const res = await request(app).get("/api/rewards/pointsbalance").send({
-      payer: "DANNON",
-      points: 1000,
+// Private route
+describe("GET /pointsbalance", () => {
+  describe("gets the current point balance", () => {
+    it("returns the current point balance", async () => {
+      try {
+        const response = await (
+          await request(app).get("/pointsbalance")
+        ).send({
+          payer: "DANNON",
+          points: 1000,
+        });
+        expect(response.body.message)
+          .toBe("Current point balance is: 1000")
+          .toEqual({
+            payer: "DANNON",
+            points: 1000,
+          });
+      } catch (error) {
+        error.message;
+      }
     });
-    expect(res.status).toBe(200);
-  });
-
-  it("should return a status of 200", async () => {
-    const res2 = await request(app).get("/api/rewards/pointsbalance").send({
-      payer: "UNILEVER",
-      points: 0,
-    });
-    expect(res2.status).toBe(200);
-  });
-
-  it("should return a status of 200", async () => {
-    const res3 = await request(app).get("/api/rewards/pointsbalance").send({
-      payer: "MILLER COORS",
-      points: 5300,
-    });
-    expect(res3.status).toBe(200);
   });
 });

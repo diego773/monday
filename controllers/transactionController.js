@@ -4,7 +4,7 @@ const db = require("../models/rewardsModel");
 // Private route
 const addTransactions = async (req, res) => {
   try {
-    const { _id, payer, points, timestamps } = req.body;
+    const { payer, points, timestamps } = req.body;
 
     if (!payer || !points || !timestamps) {
       return res
@@ -15,7 +15,6 @@ const addTransactions = async (req, res) => {
     // Don't allow negative points be added to the database
     if (points < 0) {
       const negativeTransaction = await db.create({
-        _id,
         payer,
         points,
         timestamps,
@@ -24,7 +23,6 @@ const addTransactions = async (req, res) => {
       return res.status(422).json({
         message:
           "Negative points are not allowed to be added to the database, and will be subtracted from the payer's current point balance.",
-        _id: negativeTransaction._id,
         payer: negativeTransaction.payer,
         points: negativeTransaction.points,
         timestamps: negativeTransaction.timestamps,
@@ -47,7 +45,7 @@ const addTransactions = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    error.message;
   }
 };
 
@@ -142,12 +140,11 @@ const pointsBalance = async (req, res) => {
     let { payer } = req.body;
 
     let pointsBalanceObject = [];
+    let pointsBalance = 0;
 
     let oldestTransaction = await db.find().sort({ timestamps: 1 });
 
     for (let i = 0; i < oldestTransaction.length; i++) {
-      let pointsBalance = 0;
-
       if (oldestTransaction[i].points < 0) {
         return res.status(422).json({
           message: "No points balance for this user",

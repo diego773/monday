@@ -110,7 +110,7 @@ Click send and you should see a Status:200 OK response.
 ## Running Test
 
     1. Run the test file with the following command:
-      2. npm run test
+    - npm run test
 
 The test file will run the following tests:
 
