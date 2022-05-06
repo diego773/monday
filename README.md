@@ -29,8 +29,8 @@ A backend restful API web service that accepts HTTP requests and returns respons
 
 ## Installation
 
-Before installing this application on your local computer, ensure that you have Node, NPM and MongoDB installed globally on your machine. This application works in Node. You can go to the following website to download Node: <a href='https://nodejs.org/en/'>Node</a>, you can go to the following website to download NPM: <a href='https://www.npmjs.com/'>NPM</a>. You can go to the following website to download MongoDB: <a href='https://www.mongodb.com/'>MongoDB</a>. You can also go to the following website to download Jest: <a href='https://jestjs.io/'>Jest</a>.
-If you don't have Postman it's fine you can use any of api testing software, if you don't you can go to the following website to download Postman: <a href='https://www.getpostman.com/'>Postman</a>.
+Before installing this application on your local computer, ensure that you have Node, NPM and MongoDB installed globally on your machine. This application works in Node. You can go to the following website to download <a href='https://nodejs.org/en/'>Node</a>, you can go to the following website to download <a href='https://www.npmjs.com/'>NPM</a>. You can go to the following website to download <a href='https://www.mongodb.com/'>MongoDB</a>. You can also go to the following website to download <a href='https://jestjs.io/'>Jest</a>. You can also go to the following website to download Supertest: <a href='https://www.npmjs.com/package/supertest'>Supertest</a>.
+If you don't have Postman it's fine you can use any of api testing software, if you don't you can go to the following website to download <a href='https://www.getpostman.com/'>Postman</a>.
 
 Installation:
 
